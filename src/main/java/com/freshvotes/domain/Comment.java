@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 @Entity
 public class Comment {
 
-    private CommentId pk; // foreign key
+    private CommentId pk; 
     private String text;
 
     @EmbeddedId
