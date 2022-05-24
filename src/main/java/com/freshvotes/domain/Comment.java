@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 public class Comment {
 
     private CommentId pk; // foreign key
-    private String text;
+    private String text; // add something new in previous version
 
     @EmbeddedId
     public CommentId getPk() {
