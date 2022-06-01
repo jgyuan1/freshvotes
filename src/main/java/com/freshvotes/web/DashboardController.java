@@ -1,4 +1,4 @@
-package com.freshvotes;
+package com.freshvotes.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class DashboardController {
 
     @RequestMapping(value="/", method=RequestMethod.GET)
-    //listen to the GET request on this root URL
-    public String rootView() {
+    public String rootView () {
         return "index";
     }
 }
