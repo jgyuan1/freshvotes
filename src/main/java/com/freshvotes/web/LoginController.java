@@ -18,5 +18,9 @@ public class LoginController {
     public String votes() {
         return "votes";
     }
+    @GetMapping("/logoutSuccessful")
+    public String logout() {
+        return "logoutSuccessful";
+    }
 
 }

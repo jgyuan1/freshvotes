@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -22,16 +22,24 @@ import org.springframework.security.web.SecurityFilterChain;
 
 public class WebSecurityConfiguration {
 
+    @Bean PasswordEncoder getPasswordEncoder() {
+        return  new BCryptPasswordEncoder();
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
                 .authorizeHttpRequests((auth) -> auth
                         .antMatchers("/","/index").permitAll()
-                        .antMatchers("/hello").hasRole("USER")
-                        .anyRequest().authenticated())
+                        .antMatchers("/hello","/votes").hasRole("USER"))
                 .formLogin((form)->form.loginPage("/login").permitAll()
-                        .defaultSuccessUrl("/votes"));
+                        .defaultSuccessUrl("/votes"))
+                .logout()
+                .logoutUrl("/logout")
+                        .clearAuthentication(true)
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .logoutSuccessUrl("/logoutSuccessful");
 
 //                .logout()
 //                .logoutUrl("/logout")
@@ -53,8 +61,7 @@ public class WebSecurityConfiguration {
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-
+        PasswordEncoder passwordEncoder = getPasswordEncoder();
         UserDetails user = User.builder().passwordEncoder(passwordEncoder::encode)
                 .username("user").password("password123").roles("USER").build();
         UserDetails admin = User.builder().passwordEncoder(passwordEncoder::encode)
