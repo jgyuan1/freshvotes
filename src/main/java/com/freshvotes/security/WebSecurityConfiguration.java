@@ -14,6 +14,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 
@@ -23,10 +26,12 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfiguration {
 //Spring Security uses DelegatingPasswordEncoder by default. However, this can be customized by exposing a PasswordEncoder as a Spring bean.
     // BCryptPasswordEncoder is default
-//    @Bean
-//    PasswordEncoder getPasswordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
+   @Bean
+   public PasswordEncoder getPasswordEncoder() {
+       PasswordEncoder passwordEncoder =
+               PasswordEncoderFactories.createDelegatingPasswordEncoder();
+       return passwordEncoder;
+   }
 //
 //    @Autowired
 //    private UserDetailsService userDetailsService;
@@ -35,7 +40,7 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .antMatchers("/", "/index").permitAll()
+                        .antMatchers("/", "/index","/register").permitAll()
                         .antMatchers("/hello", "/votes").hasAuthority("ROLE_USER"))
                 .formLogin((form) -> form.loginPage("/login").permitAll()
                         .defaultSuccessUrl("/votes"))

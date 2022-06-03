@@ -4,7 +4,9 @@ import com.freshvotes.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-//@Repository
+//@Repository is not necessary
+@Repository
+//largely decrease the amount of boilerplate code you need to write
 public interface UserRepository extends JpaRepository<User,Long>{
 
     // spring Data Jpa will implement
