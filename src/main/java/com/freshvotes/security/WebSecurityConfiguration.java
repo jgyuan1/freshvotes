@@ -1,8 +1,7 @@
 package com.freshvotes.security;
 
 
-import com.freshvotes.service.UserDetailsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 
 
@@ -24,7 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 
 public class WebSecurityConfiguration {
-//Spring Security uses DelegatingPasswordEncoder by default. However, this can be customized by exposing a PasswordEncoder as a Spring bean.
+    //Spring Security uses DelegatingPasswordEncoder by default. However, this can be customized by exposing a PasswordEncoder as a Spring bean.
     // BCryptPasswordEncoder is default
    @Bean
    public PasswordEncoder getPasswordEncoder() {
@@ -32,18 +31,16 @@ public class WebSecurityConfiguration {
                PasswordEncoderFactories.createDelegatingPasswordEncoder();
        return passwordEncoder;
    }
-//
-//    @Autowired
-//    private UserDetailsService userDetailsService;
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .antMatchers("/", "/index","/register").permitAll()
-                        .antMatchers("/hello", "/votes").hasAuthority("ROLE_USER"))
+                        .antMatchers("/hello", "/votes","/products","/products/*","/dashboard","/allProducts").hasAuthority("ROLE_USER"))
                 .formLogin((form) -> form.loginPage("/login").permitAll()
-                        .defaultSuccessUrl("/votes"))
+                        .defaultSuccessUrl("/dashboard"))
                 //.authenticationManager(new ProviderManager(new DaoAuthenticationProvider()))
                 .logout()
                 .logoutUrl("/logout")

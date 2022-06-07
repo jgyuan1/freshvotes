@@ -15,6 +15,7 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
     // controller-service-repository three-layer design
     // separate the work of service and repository as much as possible
+
     public User save (User user) {
 
         String encodedPassword = passwordEncoder.encode(user.getPassword());
@@ -24,6 +25,9 @@ public class UserService {
         authority.setUser(user);
         user.getAuthorities().add(authority);
         return userRepository.save(user);
+    }
 
+    public User getUserByUserName(String username) {
+        return userRepository.findByUsername(username);
     }
 }
