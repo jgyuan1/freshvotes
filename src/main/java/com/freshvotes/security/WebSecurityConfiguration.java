@@ -32,7 +32,7 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .antMatchers("/", "/index","/register").permitAll()
+                        .antMatchers("/", "/index","/register","/images/**").permitAll()
                         .antMatchers("/hello", "/votes","/products","/products/*","/dashboard","/allProducts").hasAuthority("ROLE_USER"))
                 .formLogin((form) -> form.loginPage("/login").permitAll()
                         .defaultSuccessUrl("/dashboard"))
