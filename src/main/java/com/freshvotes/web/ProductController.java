@@ -27,8 +27,8 @@ public class ProductController {
 
     @GetMapping("/allProducts")
     //parameter "products" in products.html will resolve from model
-    public String getAllProducts(ModelMap model) {
-        List<Product> allProducts = productService.findAllProducts();
+    public String getAllProducts(@AuthenticationPrincipal User user, ModelMap model) {
+        List<Product> allProducts = productService.findAllProductsByUser(user);
 //        System.out.println(appProducts);
         model.put("allProducts", allProducts);
         return "allProducts";
@@ -41,10 +41,10 @@ public class ProductController {
     }
     @GetMapping("/products/{productId}")
     public String getProducts(@PathVariable Long productId, ModelMap model) {
-        System.out.println(model.toString());
+//        System.out.println(model);
         Product product = productService.findProductById(productId);
         model.put("product", product);
-        System.out.println(model.toString());
+//        System.out.println(model);
         return "product";
     }
 
@@ -63,16 +63,23 @@ public class ProductController {
         return "redirect:/products/"+productId;
     }
 
+//    @PostMapping("/products/{productId}")
+//    // parameter product comes from the thymeleaf that binds a product's information with a product
+//    public String saveProduct(@PathVariable Long productId, @ModelAttribute Product product) {
+//        Product dbProduct = productService.findProductById(productId);
+//        dbProduct.setName(product.getName());
+//        dbProduct.setPublished(product.getPublished());
+//        productService.saveProduct(dbProduct);
+//        return "redirect:/products/" + dbProduct.getId();
+//    }
+
     @PostMapping("/products/{productId}")
     // parameter product comes from the thymeleaf that binds a product's information with a product
-    public String saveProduct(@PathVariable Long productId, @ModelAttribute Product product) {
-        Product dbProduct = productService.findProductById(productId);
-        dbProduct.setName(product.getName());
-        productService.saveProduct(dbProduct);
-        return "redirect:/products/" + dbProduct.getId();
-//
-//        productService.saveProduct(product);
-//        return "redirect:/products/" + product.getId();
+    public String saveProduct(@PathVariable Long productId, Product product, @AuthenticationPrincipal User user) {
+        // because user is lazily loaded, so we need to add the user manually
+        product.setUser(user);
+        productService.saveProduct(product);
+        return "redirect:/products/" + product.getId();
     }
 }
 

@@ -1,6 +1,7 @@
 package com.freshvotes.service;
 
 import com.freshvotes.domain.Product;
+import com.freshvotes.domain.User;
 import com.freshvotes.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,10 @@ public class ProductService {
 
     public List<Product> findAllProducts(){
         return productRepository.findAll();
+    }
+
+    public List<Product> findAllProductsByUser(User user) {
+        return productRepository.findByUser(user);
     }
 
 }

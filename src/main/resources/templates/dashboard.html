@@ -20,12 +20,13 @@
 <!--      });-->
 <!--    </script>-->
     <title>Dashboard Page</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
-      crossorigin="anonymous"
-    />
+    <script th:replace="fragments/fragmentHeader :: headerElement"></script>
+<!--    <link-->
+<!--      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"-->
+<!--      rel="stylesheet"-->
+<!--      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"-->
+<!--      crossorigin="anonymous"-->
+<!--    />-->
   </head>
   <body>
     <script
@@ -35,8 +36,13 @@
     ></script>
 
     <div class="container">
-      <h2>Create A Product!</h2>
+      <h1>FreshVotes Dashboard</h1>
+      <h2>Your Products:</h2>
       <!--point to itself-->
+      <div th:each="product:${allProducts}">
+        <!--        <div th:text="${product.name}"></div>-->
+        <a th:href="@{/products/{productId}(productId=${product.id})}" th:text="${product.name}"></a>
+      </div>
       <form action="/products" method="post">
         <input
           type="hidden"
@@ -48,7 +54,7 @@
 <!--            Back-->
 <!--          </button>-->
           <button  type="submit" class="btn btn-info col-5" id="createProduct">
-            Create A Product
+            Create A New Product
           </button>
 <!--        </div>-->
       </form>

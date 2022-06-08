@@ -27,15 +27,20 @@
       integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy"
       crossorigin="anonymous"
     ></script>
-<!-- th:if="${products.size() != null}" -->
-    <div class="container" >
+    <div class="container">
       <h2>Products</h2>
-      <!--point to itself-->
-      <tr th:each="product: ${allProducts}"></tr>
-      <div th:if="${product! = null}"> <td  th:text="${product.id}" /></div>
-      <div th:if="${product! = null}"> <td th:text="${product.name}" /></div>
+      <div th:each="product:${allProducts}">
+<!--        <div th:text="${product.name}"></div>-->
+        <a th:href="@{/products/{productId}(productId=${product.id})}" th:text="${product.name}"></a>
+      </div>
 
-      </tr>
+      <!-- <table>
+        <tr th:each="product: ${allProducts}"></tr>
+        <td th:if="${product != null} th:text="${product.id}" />
+        <td th:if="${product != null} th:text="${product.name}" />
+
+    </tr>
+      </table> -->
     </div>
   </body>
 </html>
