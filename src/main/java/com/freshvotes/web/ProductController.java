@@ -39,6 +39,7 @@ public class ProductController {
     public String getProducts(ModelMap model) {
         return "product";
     }
+
     @GetMapping("/products/{productId}")
     public String getProducts(@PathVariable Long productId, ModelMap model) {
 //        System.out.println(model);
@@ -81,5 +82,10 @@ public class ProductController {
         productService.saveProduct(product);
         return "redirect:/products/" + product.getId();
     }
+//
+//    @GetMapping("/p/{productId}")
+//    public String createFeaturePage(@PathVariable Long productId){
+//        return "createFeaturePage";
+//    }
 }
 

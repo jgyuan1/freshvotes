@@ -9,10 +9,7 @@ public class Feature {
     private String description;
     private String status;
 
-
     private Product product;
-
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,5 +52,10 @@ public class Feature {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    @Override
+    public String toString(){
+        return "featureId = " + id + ",featureTitle = " + title +",description = " + description+",for productId = " + product.getId();
     }
 }

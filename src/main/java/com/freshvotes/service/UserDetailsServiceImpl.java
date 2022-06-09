@@ -16,7 +16,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     // may autocomplete the code by the spring data jpa
     @Autowired
     private UserRepository userRepository;
-
     public UserDetailsServiceImpl() {
     }
 
