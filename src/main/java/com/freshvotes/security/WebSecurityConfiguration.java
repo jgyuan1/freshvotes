@@ -33,7 +33,7 @@ public class WebSecurityConfiguration {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .antMatchers("/", "/index","/register","/images/**").permitAll()
-                        .antMatchers("/hello", "/votes","/products","/products/*","/dashboard","/allProducts").hasAuthority("ROLE_USER"))
+                        .antMatchers("/hello", "/votes","/products","/products/*","/dashboard","/allProducts","/p/*").hasAuthority("ROLE_USER"))
                 .formLogin((form) -> form.loginPage("/login").permitAll()
                         .defaultSuccessUrl("/dashboard"))
                 //.authenticationManager(new ProviderManager(new DaoAuthenticationProvider()))
